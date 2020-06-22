@@ -1,0 +1,19 @@
+{% extends 'layout_produtos.html' %}
+
+{% block content %}
+
+<div class="grid-container">
+  {% for compra in compras %}
+<div class="grid-item">
+    {{ compra.comprador }}
+    </br>
+    {{ compra.valor }}
+    </br>
+    {{ compra.produto }}
+    </br>
+    {{ compra.dia_da_compra }}
+    </br>
+</div>
+  {% endfor %}
+</div>
+{% endblock %}

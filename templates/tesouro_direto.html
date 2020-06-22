@@ -1,0 +1,44 @@
+{% extends 'layout_produtos.html' %}
+
+{% block content %}
+
+<div class="grid-container">
+{% for td in tds %}
+
+<div class="grid-item">
+  {{ td.nome }}
+  </br>
+  {{ td.vencimento }}
+  </br>
+  {{ td.indexador }}
+  </br>
+  {{ td.taxa }}
+  </br>
+  {{ td.preco_unidade }}
+</div>
+{% endfor %}
+</div>
+
+<div id="compra">
+  {% if messages %}
+    <ul class="messages">
+      {% for message in messages %}
+        <li class="{{ message.tags }}">{{ message }}</li>
+      {% endfor %}
+    </ul>
+  {% endif %}
+
+  <form action="" method="POST">
+
+      {% csrf_token %}
+      {{ form }}
+
+      <input type="submit" name="Submit" class="button">
+
+      </br>
+      </br>
+      <a href="/home">Voltar</a>
+  </form>
+</div>
+
+{% endblock %}
