@@ -6,14 +6,14 @@ from .forms import CreateUser, Tesouro_Direto_CompraForm, AdvancedUserRegistrati
 from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
+from django.contrib.auth.decorators import login_required
 
 from home.models import Novo_Tesouro_Direto
 
 from random import randint
 
-# user teste, sem privilégios de adm
-# user: testeagr
-# password: Ag45fGhe095
+
+
 
 def welcome(request):
 
@@ -99,7 +99,7 @@ def advanced_register(request):
     return render(request, 'advanced_register.html', context)
 
 
-
+login_required(login_url='login')
 def meu_cadastro(request):
 
     meu_cadastro = AdvancedUserRegistration.objects.get(usuario = request.user)
@@ -109,7 +109,7 @@ def meu_cadastro(request):
     return render(request, 'meu_cadastro.html', context)
 
 
-
+login_required(login_url='login')
 def minhas_compras(request):
 
     compras = Tesouro_Direto_Compra.objects.filter(comprador = request.user)
@@ -119,7 +119,7 @@ def minhas_compras(request):
 
     return render(request, 'minhas_compras.html', context)
 
-
+login_required(login_url='login')
 def alterar_dados(request):
 
     post = AdvancedUserRegistration.objects.get(usuario = request.user)
@@ -156,6 +156,7 @@ def login_page(request):
     context = {}
     return render(request, 'login.html', context)
 
-def logout_page(request):
+def logout_user(request):
+
     logout(request)
     return redirect('login')

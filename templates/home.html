@@ -82,6 +82,18 @@
 
       <header>
         <h1>Investimentos legais</h1>
+
+        {% if request.user.is_authenticated %}
+
+          <p>Bem vindo usuário {{ request.user }}</p>
+          <a href="/logout">Faça seu logout aqui</a>
+
+        {% else %}
+
+          <a href="/">Por favor, entre neste site aqui.</a>
+
+        {% endif %}
+
         <nav>
           <ul>
               <li><a href="tesouro_direto/">Tesouro Direto</a></li>
@@ -110,8 +122,13 @@ A partir da implantação do Tesouro Direto, os poupadores ganharam uma forma al
       <div id="sidebar">
         <aside>
           <ul>
-            <li><a href="/minhas_compras">Minhas Compras</a></li>
-            <li><a href="/meu_cadastro">Meu Cadastro</a></li>
+            {% if request.user.is_authenticated %}
+              <li><a href="/minhas_compras">Minhas Compras</a></li>
+              <li><a href="/meu_cadastro">Meu Cadastro</a></li>
+            {% else %}
+              <li><a href="/">Minhas Compras</a></li>
+              <li><a href="/">Meu Cadastro</a></li>
+            {% endif %}
           </ul>
         </aside>
       </div>

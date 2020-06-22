@@ -19,26 +19,29 @@
 {% endfor %}
 </div>
 
-<div id="compra">
-  {% if messages %}
-    <ul class="messages">
-      {% for message in messages %}
-        <li class="{{ message.tags }}">{{ message }}</li>
-      {% endfor %}
-    </ul>
-  {% endif %}
+{% if request.user.is_authenticated %}
+  <div id="compra">
+    {% if messages %}
+      <ul class="messages">
+        {% for message in messages %}
+          <li class="{{ message.tags }}">{{ message }}</li>
+        {% endfor %}
+      </ul>
+    {% endif %}
 
-  <form action="" method="POST">
+    <form action="" method="POST">
 
-      {% csrf_token %}
-      {{ form }}
+        {% csrf_token %}
+        {{ form }}
 
-      <input type="submit" name="Submit" class="button">
+        <input type="submit" name="Submit" class="button">
 
-      </br>
-      </br>
-      <a href="/home">Voltar</a>
-  </form>
-</div>
+        </br>
+        </br>
+        <a href="/home">Voltar</a>
+    </form>
+  </div>
+{% endif %}
+
 
 {% endblock %}
