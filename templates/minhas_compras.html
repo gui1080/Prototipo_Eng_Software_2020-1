@@ -11,8 +11,13 @@
     <p>Valor: {{ compra.valor }}</p>
     <p>Produto comprado: {{ compra.produto }}</p>
 
+    <a href="/minhas_compras/deletar/{{ compra.pk }}"> Deletar: {{ compra.id_compra }} ?</a>
+
   </div>
   {% endfor %}
 </div>
+
+{% csrf_token %}
+{{ form.as_p }}
 
 {% endblock %}

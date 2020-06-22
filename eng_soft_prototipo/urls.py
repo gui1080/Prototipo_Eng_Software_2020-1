@@ -29,6 +29,7 @@ urlpatterns = [
     path('home/', views.home, name="home"),
 
     path('minhas_compras/', views.minhas_compras, name="minhas_compras"),
+    path('minhas_compras/deletar/<int:Tesouro_Direto_Compra_id>', views.deletar_TesouroDireto, name="deletar_TesouroDireto"),
     path('meu_cadastro/', views.meu_cadastro, name="meu_cadastro"),
 
 

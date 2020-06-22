@@ -54,6 +54,12 @@ def tesouro_direto(request):
 
     return render(request, 'tesouro_direto.html', context)
 
+def deletar_TesouroDireto(request, Tesouro_Direto_Compra_id):
+
+    compra = Tesouro_Direto_Compra.objects.get(pk=Tesouro_Direto_Compra_id)
+    compra.delete()
+
+    return redirect('/home')
 
 def home(request):
 
