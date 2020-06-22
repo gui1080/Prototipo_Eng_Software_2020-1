@@ -1,3 +1,8 @@
+{% extends 'welcome.html' %}
+
+{% block content %}
+
+
 <h3>Register</h3>
 
 <form method="POST" action="">
@@ -6,9 +11,9 @@
 
     <input type="submit" name="Create User">
 
-    <a href="/login">I already have a user!</a>
-
     {{form.errors}}
 
 
 </form>
+
+{% endblock %}

@@ -21,6 +21,8 @@ class Tesouro_Direto_Compra(models.Model):
     comprador = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
     valor = models.PositiveIntegerField()
     produto = models.ForeignKey(Novo_Tesouro_Direto, null=True, on_delete=models.SET_NULL)
+    id_compra = models.PositiveIntegerField(default='123456')
+    #dia_da_compra = models.DateField(auto_now_add=True)
 
     # def __str__(self):
         # return self.valor

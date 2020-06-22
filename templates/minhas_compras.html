@@ -4,16 +4,15 @@
 
 <div class="grid-container">
   {% for compra in compras %}
-<div class="grid-item">
-    {{ compra.comprador }}
-    </br>
-    {{ compra.valor }}
-    </br>
-    {{ compra.produto }}
-    </br>
-    {{ compra.dia_da_compra }}
-    </br>
-</div>
+  <div class="grid-item">
+
+    <p>Id da compra: {{ compra.id_compra }}</p>
+    <p>Comprador: {{ compra.comprador }}</p>
+    <p>Valor: {{ compra.valor }}</p>
+    <p>Produto comprado: {{ compra.produto }}</p>
+
+  </div>
   {% endfor %}
 </div>
+
 {% endblock %}

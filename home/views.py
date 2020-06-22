@@ -9,9 +9,15 @@ from django.contrib.auth import authenticate, login, logout
 
 from home.models import Novo_Tesouro_Direto
 
+from random import randint
+
 # user teste, sem privilégios de adm
 # user: testeagr
 # password: Ag45fGhe095
+
+def welcome(request):
+
+    return render(request, 'welcome.html')
 
 def tesouro_direto(request):
     tds = Novo_Tesouro_Direto.objects.all()
@@ -41,6 +47,7 @@ def tesouro_direto(request):
         if form.is_valid():
             instance=form.save(commit=False)
             instance.comprador = request.user
+            instance.id_compra = randint(100000, 999999)
             instance.save()
             return redirect('/home')
 
