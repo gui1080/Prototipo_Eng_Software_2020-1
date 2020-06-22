@@ -22,6 +22,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
 
     path('register/', views.register, name="register"),
+    path('register/advanced_register', views.advanced_register, name="register_advanced"),
     path('login/', views.login_page, name="login"),
 
     path('home/', views.home, name="home"),
@@ -31,5 +32,7 @@ urlpatterns = [
 
 
     path('home/tesouro_direto/', views.tesouro_direto, name="tesouro_direto"),
+
+    path('meu_cadastro/alterar_dados/', views.alterar_dados, name="alterar_dados"),
 
 ]

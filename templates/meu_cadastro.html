@@ -1,1 +1,34 @@
-<h1>oi</h1>
+{% extends 'layout_produtos.html' %}
+
+{% block content %}
+
+<div class="grid-container">
+
+  <div class="grid-item">
+    <p>CPF: {{ cadastro.cpf }}</p>
+
+    <p>Endereço: {{ cadastro.endereco }}</p>
+
+    <p>Telefone: {{ cadastro.telefone }}</p>
+
+    <p>CEP: {{ cadastro.cep }}</p>
+
+    <p>Código do Banco: {{ cadastro.cod_banco }}</p>
+
+    <p>Código da agência: {{ cadastro.cod_agencia }}</p>
+
+    <p>Número de Conta: {{ cadastro.numero_de_conta }}</p>
+
+    <p>CPF: {{ cadastro.cpf }}</p>
+
+  </div>
+
+</div>
+
+<div id="compra">
+
+  <li><a href="alterar_dados/" class="button">Alterar dados cadastrais?</a></li>
+  <li><a href="/home" class="button">Voltar para a Home</a></li>
+</div>
+</div>
+{% endblock %}

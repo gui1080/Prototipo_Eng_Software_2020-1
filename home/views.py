@@ -2,7 +2,7 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CreateUser, Tesouro_Direto_CompraForm
+from .forms import CreateUser, Tesouro_Direto_CompraForm, AdvancedUserRegistrationForm
 from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -63,15 +63,37 @@ def register(request):
 
             # messages.sucess(request, 'Acccount created!')
 
-            return redirect('login')
+            return redirect('register_advanced')
 
     context = {'form':form}
     return render(request, 'register.html', context)
 
+def advanced_register(request):
+
+    form = AdvancedUserRegistrationForm()
+
+    context = {'form':form}
+
+    if request.method == 'POST':
+        form = AdvancedUserRegistrationForm(request.POST)
+        if form.is_valid():
+            instance=form.save(commit=False)
+            instance.usuario = request.user
+            instance.save()
+            return redirect('/login')
+
+
+    return render(request, 'advanced_register.html', context)
+
+
+
 def meu_cadastro(request):
 
+    meu_cadastro = AdvancedUserRegistration.objects.get(usuario = request.user)
 
-    return render(request, 'meu_cadastro.html')
+    context = { 'cadastro':meu_cadastro }
+
+    return render(request, 'meu_cadastro.html', context)
 
 
 
@@ -84,6 +106,23 @@ def minhas_compras(request):
 
     return render(request, 'minhas_compras.html', context)
 
+
+def alterar_dados(request):
+
+    post = AdvancedUserRegistration.objects.get(usuario = request.user)
+
+    if request.method == "POST":
+        form = AdvancedUserRegistrationForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.usuario = request.user
+            post.save()
+            return redirect('meu_cadastro')
+    else:
+        form = AdvancedUserRegistrationForm(instance=post)
+
+    context = {'form': form}
+    return render(request, 'advanced_register.html', context)
 
 def login_page(request):
 

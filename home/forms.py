@@ -23,4 +23,4 @@ class AdvancedUserRegistrationForm(ModelForm):
 
     class Meta:
         model = AdvancedUserRegistration
-        fields = '__all__'
+        fields = ['nome', 'endereco', 'telefone', 'cep', 'cod_banco', 'cod_agencia', 'numero_de_conta', 'cpf']

@@ -28,11 +28,14 @@ class Tesouro_Direto_Compra(models.Model):
 class AdvancedUserRegistration(models.Model):
 
     usuario = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
-    #endereco
-    #telefone
-    #cep
-    #cpf
-    #cod_banco
-    #cod_agencia
-    #num_conta
-    #nome
+    nome = models.CharField(max_length=155)
+    endereco = models.CharField(max_length=255)
+    telefone = models.CharField(max_length=20)
+    cep = models.CharField(max_length=9)
+    cod_banco = models.DecimalField(decimal_places=0,max_digits=7)
+    cod_agencia = models.DecimalField(decimal_places=0,max_digits=6)
+    numero_de_conta = models.DecimalField(decimal_places=0,max_digits=30)
+    cpf = models.DecimalField(decimal_places=0,max_digits=11)
+
+    def __str__(self):
+        return self.nome
