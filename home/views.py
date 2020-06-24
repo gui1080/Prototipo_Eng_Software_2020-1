@@ -2,7 +2,7 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CreateUser, Tesouro_Direto_CompraForm, AdvancedUserRegistrationForm
+from .forms import CreateUser, Tesouro_Direto_CompraForm, AdvancedUserRegistrationForm, Fundo_Investimento_CompraForm
 from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -19,12 +19,50 @@ def welcome(request):
 
     return render(request, 'welcome.html')
 
+def fundo_de_investimento(request):
+
+    fis = Novo_Fundo_Investimento.objects.all()
+
+    form = Fundo_Investimento_CompraForm()
+
+    context = {'form':form,
+                'fis':fis,
+    }
+
+    if request.method == 'POST':
+
+        # formulario original a ser conferido abaixo
+        form = Fundo_Investimento_CompraForm(request.POST)
+
+        checando_validade = form.save(commit=False)
+        produto = checando_validade.produto
+
+        preco_minimo = int(produto.preco_unidade)
+        preco_compra = int(checando_validade.valor)
+
+        if (preco_compra < preco_minimo):
+            # o comprador nao pode continuar!
+            messages.warning(request, 'Por favor, compre pelo menos o valor mínimo para este produto!')
+            return redirect('/home/fundo_de_investimento')
+
+        if form.is_valid():
+            instance=form.save(commit=False)
+            instance.comprador = request.user
+            instance.id_compra = randint(100000, 999999)
+            instance.save()
+            return redirect('/home')
+
+    return render(request, 'fundo_de_investimento.html', context)
+
+
 def tesouro_direto(request):
+
     tds = Novo_Tesouro_Direto.objects.all()
 
     form = Tesouro_Direto_CompraForm()
     context = { 'form':form,
-                    'tds':tds }
+                'tds':tds,
+               }
 
     if request.method == 'POST':
 
@@ -57,6 +95,13 @@ def tesouro_direto(request):
 def deletar_TesouroDireto(request, Tesouro_Direto_Compra_id):
 
     compra = Tesouro_Direto_Compra.objects.get(pk=Tesouro_Direto_Compra_id)
+    compra.delete()
+
+    return redirect('/home')
+
+def deletar_FundodeInvestimento(request, fundo_de_investimento_id):
+
+    compra = Fundo_Investimento_Compra.objects.get(pk=fundo_de_investimento_id)
     compra.delete()
 
     return redirect('/home')
@@ -112,9 +157,10 @@ def meu_cadastro(request):
 login_required(login_url='login')
 def minhas_compras(request):
 
-    compras = Tesouro_Direto_Compra.objects.filter(comprador = request.user)
+    compras_td = Tesouro_Direto_Compra.objects.filter(comprador = request.user)
+    compras_fi = Fundo_Investimento_Compra.objects.filter(comprador = request.user)
 
-    context = { 'compras':compras }
+    context = { 'compras_td':compras_td, 'compras_fi':compras_fi }
 
 
     return render(request, 'minhas_compras.html', context)

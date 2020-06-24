@@ -3,18 +3,16 @@
 {% block content %}
 
 <div class="grid-container">
-{% for td in tds %}
+{% for fi in fis %}
 
 <div class="grid-item">
-  {{ td.nome }}
+  {{ fi.nome }}
   </br>
-  {{ td.vencimento }}
+  {{ fi.classe }}
   </br>
-  {{ td.indexador }}
+  {{ fi.prazo }}
   </br>
-  {{ td.taxa }}
-  </br>
-  {{ td.preco_unidade }}
+  {{ fi.preco_unidade }}
 </div>
 {% endfor %}
 </div>

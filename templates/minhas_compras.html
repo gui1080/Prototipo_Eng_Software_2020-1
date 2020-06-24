@@ -3,15 +3,30 @@
 {% block content %}
 
 <div class="grid-container">
-  {% for compra in compras %}
+  {% for compra_td in compras_td %}
   <div class="grid-item">
 
-    <p>Id da compra: {{ compra.id_compra }}</p>
-    <p>Comprador: {{ compra.comprador }}</p>
-    <p>Valor: {{ compra.valor }}</p>
-    <p>Produto comprado: {{ compra.produto }}</p>
+    <p>Id da compra: {{ compra_td.id_compra }}</p>
+    <p>Comprador: {{ compra_td.comprador }}</p>
+    <p>Valor: {{ compra_td.valor }}</p>
+    <p>Produto comprado: {{ compra_td.produto }}</p>
+    <p>Dia da compra: {{ compra_td.dia_da_compra }}</p>
 
-    <a href="/minhas_compras/deletar/{{ compra.pk }}"> Deletar: {{ compra.id_compra }} ?</a>
+    <a href="/minhas_compras/deletar_td/{{ compra_td.pk }}"> Deletar: {{ compra_td.id_compra }} ?</a>
+
+  </div>
+  {% endfor %}
+
+  {% for compra_fi in compras_fi %}
+  <div class="grid-item">
+
+    <p>Id da compra: {{ compra_fi.id_compra }}</p>
+    <p>Comprador: {{ compra_fi.comprador }}</p>
+    <p>Valor: {{ compra_fi.valor }}</p>
+    <p>Produto comprado: {{ compra_fi.produto }}</p>
+    <p>Dia da compra: {{ compra_fi.dia_da_compra }}</p>
+
+    <a href="/minhas_compras/deletar_fi/{{ compra_fi.pk }}"> Deletar: {{ compra_fi.id_compra }} ?</a>
 
   </div>
   {% endfor %}

@@ -3,13 +3,20 @@ from django.forms import ModelForm
 from django.contrib.auth.models import User
 from django import forms
 
-from .models import Tesouro_Direto_Compra, AdvancedUserRegistration
+from .models import Tesouro_Direto_Compra, AdvancedUserRegistration, Fundo_Investimento_Compra
 
 class Tesouro_Direto_CompraForm(ModelForm):
 
     class Meta:
         model = Tesouro_Direto_Compra
         fields = ['valor', 'produto']
+
+class Fundo_Investimento_CompraForm(ModelForm):
+
+    class Meta:
+        model = Fundo_Investimento_Compra
+        fields = ['valor', 'produto']
+
 
 # criação de user é uma modificação da criação default
 # documentação: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
