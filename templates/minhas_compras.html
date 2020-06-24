@@ -30,6 +30,22 @@
 
   </div>
   {% endfor %}
+
+  {% for compra_rf in compras_rf %}
+  <div class="grid-item">
+
+    <p>Id da compra: {{ compra_rf.id_compra }}</p>
+    <p>Comprador: {{ compra_rf.comprador }}</p>
+    <p>Valor: {{ compra_rf.valor }}</p>
+    <p>Produto comprado: {{ compra_rf.produto }}</p>
+    <p>Dia da compra: {{ compra_rf.dia_da_compra }}</p>
+
+    <a href="/minhas_compras/deletar_rf/{{ compra_rf.pk }}"> Deletar: {{ compra_rf.id_compra }} ?</a>
+
+  </div>
+  {% endfor %}
+
+
 </div>
 
 {% csrf_token %}

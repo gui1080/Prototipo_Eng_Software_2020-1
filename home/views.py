@@ -2,7 +2,7 @@
 
 from django.shortcuts import render, redirect
 from django.contrib.auth.forms import UserCreationForm
-from .forms import CreateUser, Tesouro_Direto_CompraForm, AdvancedUserRegistrationForm, Fundo_Investimento_CompraForm
+from .forms import CreateUser, Tesouro_Direto_CompraForm, AdvancedUserRegistrationForm, Fundo_Investimento_CompraForm, Renda_Fixa_CompraForm
 from .models import *
 from django.contrib import messages
 from django.contrib.auth import authenticate, login, logout
@@ -54,6 +54,38 @@ def fundo_de_investimento(request):
 
     return render(request, 'fundo_de_investimento.html', context)
 
+def renda_fixa(request):
+
+    rfs = Novo_Renda_Fixa.objects.all()
+
+    form = Renda_Fixa_CompraForm()
+
+    context = { 'form':form, 'rfs':rfs }
+
+    if request.method == 'POST':
+
+        # formulario original a ser conferido abaixo
+        form = Renda_Fixa_CompraForm(request.POST)
+
+        checando_validade = form.save(commit=False)
+        produto = checando_validade.produto
+
+        preco_minimo = int(produto.preco_unidade)
+        preco_compra = int(checando_validade.valor)
+
+        if (preco_compra < preco_minimo):
+            # o comprador nao pode continuar!
+            messages.warning(request, 'Por favor, compre pelo menos o valor mínimo para este produto!')
+            return redirect('/home/renda_fixa')
+
+        if form.is_valid():
+            instance=form.save(commit=False)
+            instance.comprador = request.user
+            instance.id_compra = randint(100000, 999999)
+            instance.save()
+            return redirect('/home')
+
+    return render(request, 'renda_fixa.html', context)
 
 def tesouro_direto(request):
 
@@ -102,6 +134,13 @@ def deletar_TesouroDireto(request, Tesouro_Direto_Compra_id):
 def deletar_FundodeInvestimento(request, fundo_de_investimento_id):
 
     compra = Fundo_Investimento_Compra.objects.get(pk=fundo_de_investimento_id)
+    compra.delete()
+
+    return redirect('/home')
+
+def deletar_RendaFixa(request, renda_fixa_id):
+
+    compra = Renda_Fixa_Compra.objects.get(pk=renda_fixa_id)
     compra.delete()
 
     return redirect('/home')
@@ -159,8 +198,9 @@ def minhas_compras(request):
 
     compras_td = Tesouro_Direto_Compra.objects.filter(comprador = request.user)
     compras_fi = Fundo_Investimento_Compra.objects.filter(comprador = request.user)
+    compras_rf = Renda_Fixa_Compra.objects.filter(comprador = request.user)
 
-    context = { 'compras_td':compras_td, 'compras_fi':compras_fi }
+    context = { 'compras_td':compras_td, 'compras_fi':compras_fi, 'compras_rf':compras_rf }
 
 
     return render(request, 'minhas_compras.html', context)

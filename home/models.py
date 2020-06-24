@@ -5,6 +5,36 @@ import datetime
 
 # Create your models here.
 
+
+class Novo_Renda_Fixa(models.Model):
+
+    CLASSE = (
+    ('CDB', 'CDB'),
+    ('LCA', 'LCA'),
+    ('LCI', 'LCI'),
+    ('LF', 'LF'),
+    ('LC', 'LC'),
+    )
+
+    nome = models.CharField(max_length=255)
+    vencimento = models.PositiveIntegerField()
+    classe = models.CharField(max_length=255, null=True, choices=CLASSE)
+    horario_limite = models.CharField(max_length=255)
+    preco_unidade = models.PositiveIntegerField()
+
+    def __str__(self):
+        return self.nome
+        # retorna o titulo como string para aparecer na listagem de posts
+
+class Renda_Fixa_Compra(models.Model):
+
+    comprador = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
+    valor = models.PositiveIntegerField()
+    produto = models.ForeignKey(Novo_Renda_Fixa, null=True, on_delete=models.SET_NULL)
+    id_compra = models.PositiveIntegerField(default='123456')
+    dia_da_compra = models.DateField(("Date"), default=datetime.date.today)
+
+
 class Novo_Fundo_Investimento(models.Model):
 
     CLASSE = (

@@ -32,11 +32,13 @@ urlpatterns = [
     path('minhas_compras/', views.minhas_compras, name="minhas_compras"),
     path('minhas_compras/deletar_td/<int:Tesouro_Direto_Compra_id>', views.deletar_TesouroDireto, name="deletar_TesouroDireto"),
     path('minhas_compras/deletar_fi/<int:fundo_de_investimento_id>', views.deletar_FundodeInvestimento, name="deletar_FundodeInvestimento"),
+    path('minhas_compras/deletar_rf/<int:renda_fixa_id>', views.deletar_RendaFixa, name="deletar_RendaFixa"),
     path('meu_cadastro/', views.meu_cadastro, name="meu_cadastro"),
 
 
     path('home/tesouro_direto/', views.tesouro_direto, name="tesouro_direto"),
     path('home/fundo_de_investimento/', views.fundo_de_investimento, name="fundo_de_investimento"),
+    path('home/renda_fixa/', views.renda_fixa, name="renda_fixa"),
 
     path('meu_cadastro/alterar_dados/', views.alterar_dados, name="alterar_dados"),
 
