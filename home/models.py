@@ -5,7 +5,7 @@ import datetime
 
 # Create your models here.
 
-
+# RENDA FIXA
 class Novo_Renda_Fixa(models.Model):
 
     CLASSE = (
@@ -26,6 +26,7 @@ class Novo_Renda_Fixa(models.Model):
         return self.nome
         # retorna o titulo como string para aparecer na listagem de posts
 
+# COMPRANDO RENDA FIXA
 class Renda_Fixa_Compra(models.Model):
 
     comprador = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
@@ -34,7 +35,7 @@ class Renda_Fixa_Compra(models.Model):
     id_compra = models.PositiveIntegerField(default='123456')
     dia_da_compra = models.DateField(("Date"), default=datetime.date.today)
 
-
+# FUNDO DE INVESTIMENTO
 class Novo_Fundo_Investimento(models.Model):
 
     CLASSE = (
@@ -59,6 +60,7 @@ class Novo_Fundo_Investimento(models.Model):
         return self.nome
         # retorna o titulo como string para aparecer na listagem de posts
 
+# COMPRANDO FUNDO DE INVESTIMENTO
 class Fundo_Investimento_Compra(models.Model):
 
     comprador = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
@@ -67,7 +69,7 @@ class Fundo_Investimento_Compra(models.Model):
     id_compra = models.PositiveIntegerField(default='123456')
     dia_da_compra = models.DateField(("Date"), default=datetime.date.today)
 
-
+# TESOURO DIRETO
 class Novo_Tesouro_Direto(models.Model):
 
     INDEXADOR = (
@@ -86,6 +88,7 @@ class Novo_Tesouro_Direto(models.Model):
         return self.nome
         # retorna o titulo como string para aparecer na listagem de posts
 
+# COMPRANDO TESOURO DIRETO
 class Tesouro_Direto_Compra(models.Model):
 
     comprador = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)
@@ -97,6 +100,8 @@ class Tesouro_Direto_Compra(models.Model):
     # def __str__(self):
         # return self.valor
 
+# PEGANDO INFOS DO USUARIO
+# o usuario fica atrelado a cada registro de advanced register
 class AdvancedUserRegistration(models.Model):
 
     usuario = models.ForeignKey(User, null=True, on_delete=models.SET_NULL)

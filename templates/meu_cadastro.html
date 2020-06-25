@@ -2,6 +2,8 @@
 
 {% block content %}
 
+
+{% if cadastro != None %}
   <div class="grid-container">
 
     <div class="grid-item">
@@ -31,10 +33,21 @@
 
   </div>
 
-<div id="compra">
+  <div id="compra">
 
-  <li><a href="alterar_dados/" class="button">Alterar dados cadastrais?</a></li>
-  <li><a href="/home" class="button">Voltar para a Home</a></li>
-</div>
+    <li><a href="alterar_dados/" class="button">Alterar dados cadastrais?</a></li>
+    <li><a href="/home" class="button">Voltar para a Home</a></li>
+  </div>
+
+{% else %}
+
+  <div id="compra">
+
+    <li><a href="/register/advanced_register" class="button">Por favor, termine o seu cadastro para poder prosseguir nesta página!</a></li>
+
+  </div>
+
+{% endif %}
+
 </div>
 {% endblock %}

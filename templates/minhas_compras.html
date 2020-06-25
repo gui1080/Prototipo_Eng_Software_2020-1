@@ -2,51 +2,64 @@
 
 {% block content %}
 
-<div class="grid-container">
-  {% for compra_td in compras_td %}
-  <div class="grid-item">
 
-    <p>Id da compra: {{ compra_td.id_compra }}</p>
-    <p>Comprador: {{ compra_td.comprador }}</p>
-    <p>Valor: {{ compra_td.valor }}</p>
-    <p>Produto comprado: {{ compra_td.produto }}</p>
-    <p>Dia da compra: {{ compra_td.dia_da_compra }}</p>
+{% if cadastro != None %}
 
-    <a href="/minhas_compras/deletar_td/{{ compra_td.pk }}"> Deletar: {{ compra_td.id_compra }} ?</a>
+  <div class="grid-container">
+    {% for compra_td in compras_td %}
+    <div class="grid-item">
+
+      <p>Id da compra: {{ compra_td.id_compra }}</p>
+      <p>Comprador: {{ compra_td.comprador }}</p>
+      <p>Valor: {{ compra_td.valor }}</p>
+      <p>Produto comprado: {{ compra_td.produto }}</p>
+      <p>Dia da compra: {{ compra_td.dia_da_compra }}</p>
+
+      <a href="/minhas_compras/deletar_td/{{ compra_td.pk }}"> Deletar: {{ compra_td.id_compra }} ?</a>
+
+    </div>
+    {% endfor %}
+
+    {% for compra_fi in compras_fi %}
+    <div class="grid-item">
+
+      <p>Id da compra: {{ compra_fi.id_compra }}</p>
+      <p>Comprador: {{ compra_fi.comprador }}</p>
+      <p>Valor: {{ compra_fi.valor }}</p>
+      <p>Produto comprado: {{ compra_fi.produto }}</p>
+      <p>Dia da compra: {{ compra_fi.dia_da_compra }}</p>
+
+      <a href="/minhas_compras/deletar_fi/{{ compra_fi.pk }}"> Deletar: {{ compra_fi.id_compra }} ?</a>
+
+    </div>
+    {% endfor %}
+
+    {% for compra_rf in compras_rf %}
+    <div class="grid-item">
+
+      <p>Id da compra: {{ compra_rf.id_compra }}</p>
+      <p>Comprador: {{ compra_rf.comprador }}</p>
+      <p>Valor: {{ compra_rf.valor }}</p>
+      <p>Produto comprado: {{ compra_rf.produto }}</p>
+      <p>Dia da compra: {{ compra_rf.dia_da_compra }}</p>
+
+      <a href="/minhas_compras/deletar_rf/{{ compra_rf.pk }}"> Deletar: {{ compra_rf.id_compra }} ?</a>
+
+    </div>
+    {% endfor %}
+
 
   </div>
-  {% endfor %}
 
-  {% for compra_fi in compras_fi %}
-  <div class="grid-item">
+{% else %}
 
-    <p>Id da compra: {{ compra_fi.id_compra }}</p>
-    <p>Comprador: {{ compra_fi.comprador }}</p>
-    <p>Valor: {{ compra_fi.valor }}</p>
-    <p>Produto comprado: {{ compra_fi.produto }}</p>
-    <p>Dia da compra: {{ compra_fi.dia_da_compra }}</p>
+  <div id="compra">
 
-    <a href="/minhas_compras/deletar_fi/{{ compra_fi.pk }}"> Deletar: {{ compra_fi.id_compra }} ?</a>
+    <li><a href="/register/advanced_register" class="button">Por favor, termine o seu cadastro para poder prosseguir nesta página!</a></li>
 
   </div>
-  {% endfor %}
 
-  {% for compra_rf in compras_rf %}
-  <div class="grid-item">
-
-    <p>Id da compra: {{ compra_rf.id_compra }}</p>
-    <p>Comprador: {{ compra_rf.comprador }}</p>
-    <p>Valor: {{ compra_rf.valor }}</p>
-    <p>Produto comprado: {{ compra_rf.produto }}</p>
-    <p>Dia da compra: {{ compra_rf.dia_da_compra }}</p>
-
-    <a href="/minhas_compras/deletar_rf/{{ compra_rf.pk }}"> Deletar: {{ compra_rf.id_compra }} ?</a>
-
-  </div>
-  {% endfor %}
-
-
-</div>
+{% endif %}
 
 {% csrf_token %}
 {{ form.as_p }}

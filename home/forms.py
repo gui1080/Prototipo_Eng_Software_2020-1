@@ -5,6 +5,8 @@ from django import forms
 
 from .models import Tesouro_Direto_Compra, AdvancedUserRegistration, Fundo_Investimento_Compra, Renda_Fixa_Compra
 
+# nos formularios de compra nos interessa apenas o produto e quanto se vai comprar
+
 class Renda_Fixa_CompraForm(ModelForm):
 
     class Meta:
@@ -23,7 +25,7 @@ class Fundo_Investimento_CompraForm(ModelForm):
         model = Fundo_Investimento_Compra
         fields = ['valor', 'produto']
 
-# criação de user é uma modificação da criação default
+# criação de user default facilita os processos de login e logout
 # documentação: https://docs.djangoproject.com/en/3.0/topics/auth/customizing/
 class CreateUser(UserCreationForm):
 
@@ -31,6 +33,7 @@ class CreateUser(UserCreationForm):
         model = User
         fields = ['username', 'email', 'password1', 'password2']
 
+# nesse formulario se pegam as info do user, cada registro fica atrelado a um user default
 class AdvancedUserRegistrationForm(ModelForm):
 
     class Meta:

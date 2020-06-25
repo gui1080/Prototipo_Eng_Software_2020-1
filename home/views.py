@@ -13,13 +13,28 @@ from home.models import Novo_Tesouro_Direto
 from random import randint
 
 
+#-----------------------------------------------------------------------------------------
 
-
+# pagina de quem acaba de entrar no site, com area de registro, login e visita
 def welcome(request):
 
     return render(request, 'welcome.html')
 
+# pagina default com produtos e servicos
+def home(request):
+
+    return render(request, 'home.html')
+
+#-----------------------------------------------------------------------------------------
+
+# vendo os produtos disponiveis (o superuser cadastra isso na pagina de adm)
+
 def fundo_de_investimento(request):
+
+    try:
+        meu_cadastro = AdvancedUserRegistration.objects.get(usuario = request.user)
+    except AdvancedUserRegistration.DoesNotExist:
+        meu_cadastro = None
 
     fis = Novo_Fundo_Investimento.objects.all()
 
@@ -27,6 +42,7 @@ def fundo_de_investimento(request):
 
     context = {'form':form,
                 'fis':fis,
+                'cadastro':meu_cadastro,
     }
 
     if request.method == 'POST':
@@ -54,13 +70,20 @@ def fundo_de_investimento(request):
 
     return render(request, 'fundo_de_investimento.html', context)
 
+
+
 def renda_fixa(request):
+
+    try:
+        meu_cadastro = AdvancedUserRegistration.objects.get(usuario = request.user)
+    except AdvancedUserRegistration.DoesNotExist:
+        meu_cadastro = None
 
     rfs = Novo_Renda_Fixa.objects.all()
 
     form = Renda_Fixa_CompraForm()
 
-    context = { 'form':form, 'rfs':rfs }
+    context = { 'form':form, 'rfs':rfs, 'cadastro':meu_cadastro, }
 
     if request.method == 'POST':
 
@@ -87,13 +110,22 @@ def renda_fixa(request):
 
     return render(request, 'renda_fixa.html', context)
 
+
+
 def tesouro_direto(request):
+
+    try:
+        meu_cadastro = AdvancedUserRegistration.objects.get(usuario = request.user)
+    except AdvancedUserRegistration.DoesNotExist:
+        meu_cadastro = None
+
 
     tds = Novo_Tesouro_Direto.objects.all()
 
     form = Tesouro_Direto_CompraForm()
     context = { 'form':form,
                 'tds':tds,
+                'cadastro':meu_cadastro,
                }
 
     if request.method == 'POST':
@@ -124,12 +156,19 @@ def tesouro_direto(request):
 
     return render(request, 'tesouro_direto.html', context)
 
+
+#-----------------------------------------------------------------------------------------
+
+# deletando as compras do usuario
+
 def deletar_TesouroDireto(request, Tesouro_Direto_Compra_id):
 
     compra = Tesouro_Direto_Compra.objects.get(pk=Tesouro_Direto_Compra_id)
     compra.delete()
 
     return redirect('/home')
+
+
 
 def deletar_FundodeInvestimento(request, fundo_de_investimento_id):
 
@@ -138,6 +177,8 @@ def deletar_FundodeInvestimento(request, fundo_de_investimento_id):
 
     return redirect('/home')
 
+
+
 def deletar_RendaFixa(request, renda_fixa_id):
 
     compra = Renda_Fixa_Compra.objects.get(pk=renda_fixa_id)
@@ -145,10 +186,10 @@ def deletar_RendaFixa(request, renda_fixa_id):
 
     return redirect('/home')
 
-def home(request):
 
-    return render(request, 'home.html')
+#-----------------------------------------------------------------------------------------
 
+# manipulando usuarios e cadastros
 
 def register(request):
     form = CreateUser()
@@ -164,6 +205,8 @@ def register(request):
 
     context = {'form':form}
     return render(request, 'register.html', context)
+
+
 
 def advanced_register(request):
 
@@ -183,45 +226,6 @@ def advanced_register(request):
     return render(request, 'advanced_register.html', context)
 
 
-login_required(login_url='login')
-def meu_cadastro(request):
-
-    meu_cadastro = AdvancedUserRegistration.objects.get(usuario = request.user)
-
-    context = { 'cadastro':meu_cadastro }
-
-    return render(request, 'meu_cadastro.html', context)
-
-
-login_required(login_url='login')
-def minhas_compras(request):
-
-    compras_td = Tesouro_Direto_Compra.objects.filter(comprador = request.user)
-    compras_fi = Fundo_Investimento_Compra.objects.filter(comprador = request.user)
-    compras_rf = Renda_Fixa_Compra.objects.filter(comprador = request.user)
-
-    context = { 'compras_td':compras_td, 'compras_fi':compras_fi, 'compras_rf':compras_rf }
-
-
-    return render(request, 'minhas_compras.html', context)
-
-login_required(login_url='login')
-def alterar_dados(request):
-
-    post = AdvancedUserRegistration.objects.get(usuario = request.user)
-
-    if request.method == "POST":
-        form = AdvancedUserRegistrationForm(request.POST, instance=post)
-        if form.is_valid():
-            post = form.save(commit=False)
-            post.usuario = request.user
-            post.save()
-            return redirect('meu_cadastro')
-    else:
-        form = AdvancedUserRegistrationForm(instance=post)
-
-    context = {'form': form}
-    return render(request, 'advanced_register.html', context)
 
 def login_page(request):
 
@@ -242,7 +246,66 @@ def login_page(request):
     context = {}
     return render(request, 'login.html', context)
 
+
+
 def logout_user(request):
 
     logout(request)
     return redirect('login')
+
+
+#-----------------------------------------------------------------------------------------
+
+# area default do que o usuario pode fazer ao se autenticar
+
+login_required(login_url='login')
+def meu_cadastro(request):
+
+    try:
+        meu_cadastro = AdvancedUserRegistration.objects.get(usuario = request.user)
+    except AdvancedUserRegistration.DoesNotExist:
+        meu_cadastro = None
+
+    print(meu_cadastro)
+
+    context = { 'cadastro':meu_cadastro }
+
+    return render(request, 'meu_cadastro.html', context)
+
+
+login_required(login_url='login')
+def minhas_compras(request):
+
+    try:
+        meu_cadastro = AdvancedUserRegistration.objects.get(usuario = request.user)
+    except AdvancedUserRegistration.DoesNotExist:
+        meu_cadastro = None
+
+    compras_td = Tesouro_Direto_Compra.objects.filter(comprador = request.user)
+    compras_fi = Fundo_Investimento_Compra.objects.filter(comprador = request.user)
+    compras_rf = Renda_Fixa_Compra.objects.filter(comprador = request.user)
+
+    context = { 'compras_td':compras_td, 'compras_fi':compras_fi, 'compras_rf':compras_rf, 'cadastro':meu_cadastro }
+
+
+    return render(request, 'minhas_compras.html', context)
+
+
+
+login_required(login_url='login')
+def alterar_dados(request):
+
+    post = AdvancedUserRegistration.objects.get(usuario = request.user)
+
+    if request.method == "POST":
+        form = AdvancedUserRegistrationForm(request.POST, instance=post)
+        if form.is_valid():
+            post = form.save(commit=False)
+            post.usuario = request.user
+            post.save()
+            return redirect('meu_cadastro')
+    else:
+        form = AdvancedUserRegistrationForm(instance=post)
+
+    context = {'form': form}
+    return render(request, 'advanced_register.html', context)
